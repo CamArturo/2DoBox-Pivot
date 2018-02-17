@@ -1,18 +1,14 @@
-var $inputTitle = $('.form__input-title');
-var $inputBody = $('.form__input-body');
-var $saveBtn = $('.form__button-save');
-var $sectionIdea = $('.section__ideas');
-var $sectionSearch = $('.section__search-field');
 
-$inputBody.on('keyup', toggleDisableState);
-$inputTitle.on('keyup', toggleDisableState);
-$sectionIdea.on('click', '.delete-x', deleteIdeas);
-$sectionIdea.on('click', '.upvote', upvoteIdea);
-$sectionIdea.on('click', '.downvote', downvoteIdea);
+
+$('.form__input-body').on('keyup', toggleDisableState);
+$('.form__input-title').on('keyup', toggleDisableState);
+$('.section__ideas').on('click', '.delete-x', deleteIdeas);
+$('.section__ideas').on('click', '.upvote', upvoteIdea);
+$('.section__ideas').on('click', '.downvote', downvoteIdea);
 // $sectionIdea.on('keydown', '.idea-title', persistTitle);
 // $sectionIdea.on('keydown', '.idea-body', persistBody);
-$sectionSearch.on('keyup', searchIdeas);
-$saveBtn.on('click', saveIdea);
+$('.section__search-field').on('keyup', searchIdeas);
+$('.form__button-save').on('click', saveIdea);
 
 populatingIdeas();
 
@@ -26,6 +22,8 @@ function Idea(id, ideaTitleValue, ideaBodyValue) {
 function saveIdea(event) {
   event.preventDefault();
   var key = Date.now();
+  var $inputTitle = $('.form__input-title');
+  var $inputBody = $('.form__input-body');
   var newIdea = new Idea(key, $inputTitle.val(), $inputBody.val());
   sendToStorage(newIdea);
   $('.section__ideas').prepend(`
@@ -37,7 +35,8 @@ function saveIdea(event) {
     <article class="downvote"></article>
     <h3 class="quality">${newIdea.quality}</h3>
   </article>`);
-  clearInputs();
+  $('form').trigger("reset")
+  $inputTitle.focus();
   toggleDisableState();
 }
 
@@ -61,13 +60,10 @@ function sendToStorage(idea) {
   localStorage.setItem(idea.id, stringifiedIdea)
 }
 
-function clearInputs() {
-  $inputTitle.val('');
-  $inputBody.val('');
-  $inputTitle.focus();
-}
-
 function toggleDisableState() {
+  var $inputTitle = $('.form__input-title');
+  var $inputBody = $('.form__input-body');
+  var $saveBtn = $('.form__button-save');
   if ($inputBody.val() && $inputTitle.val()) {
     $saveBtn.prop('disabled', false);
   } else {
@@ -108,47 +104,35 @@ function downvoteIdea() {
   changeStorageQuality(this)
 }
 
-// function persistTitle(e) {
-//   if (e.keyCode === 13) {
-//     e.preventDefault();
-//     $inputTitle.focus();
-//   }
-//   var id = $(this).closest('.idea-cards').attr('id');
-//   var idea = localStorage.getItem(id);
-//   idea = JSON.parse(idea);
-//   idea.title = $(this).text();
-//   var stringifiedIdea = JSON.stringify(idea);
-//   localStorage.setItem(id, stringifiedIdea);
-// }
-
-// function persistBody(e) {
-//   if (e.keyCode === 13) {
-//     e.preventDefault();
-//     $inputTitle.focus();
-//   }
-//   var id = $(this).closest('.idea-cards').attr('id');
-//   var idea = localStorage.getItem(id);
-//   idea = JSON.parse(idea);
-//   idea.body = $(this).text();
-//   var stringifiedIdea = JSON.stringify(idea);
-//   localStorage.setItem(id, stringifiedIdea);
-// }
-
+function persistTitle(e) {
+  var $inputTitle = $('.form__input-title');
+  if (e.keyCode === 13) {
+    e.preventDefault();
+    $inputTitle.focus();
+  }
+  var id = $(this).closest('.idea-cards').attr('id');
+  var idea = localStorage.getItem(id);
+  idea = JSON.parse(idea);
+  idea.title = $(this).text();
+  idea.body = $(this).text();
+  var stringifiedIdea = JSON.stringify(idea);
+  localStorage.setItem(id, stringifiedIdea);
+}
 
 function searchIdeas(){
   var $input = $('.section__search-field').val();
   $input = $input.toUpperCase();
   var card = $('.idea-cards');
-  for (i = 0; i < card.length; i++){
-  var title = $(card[i]).find('.idea-title').text().toUpperCase();
-  var body = $(card[i]).find('.idea-body').text().toUpperCase();
-  var quality = $(card[i]).find('.quality').text().toUpperCase();
-  quality = quality.replace('QUALITY: ','');
-  if(title.includes($input)|| body.includes($input) || quality.includes($input)){
+    for (i = 0; i < card.length; i++){
+    var title = $(card[i]).find('.idea-title').text().toUpperCase();
+    var body = $(card[i]).find('.idea-body').text().toUpperCase();
+    var quality = $(card[i]).find('.quality').text().toUpperCase();
+    quality = quality.replace('QUALITY: ','');
+    if(title.includes($input)|| body.includes($input) || quality.includes($input)){
     $(card[i]).show();
-  } else { 
+    } else { 
     $(card[i]).hide();
-  }
+    }
   }
 }
 
