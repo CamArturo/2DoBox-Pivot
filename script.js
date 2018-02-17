@@ -1,62 +1,64 @@
-getFromStorage();
-
 var $inputTitle = $('.form__input-title');
 var $inputBody = $('.form__input-body');
-var $saveBtn = $('.form__button-save')
-var $quality = 'quality: swill';
+var $saveBtn = $('.form__button-save');
+var $sectionIdea = $('.section__ideas');
+var $sectionSearch = $('.section__search-field');
 
-$saveBtn.on('click', saveIdea);
 $inputBody.on('keyup', toggleDisableState);
 $inputTitle.on('keyup', toggleDisableState);
-$('.section__ideas').on('click', '.delete-x', deleteIdeas);
-$('.section__ideas').on('click', '.upvote', upvoteIdea);
-$('.section__ideas').on('click', '.downvote', downvoteIdea);
-$('.section__ideas').on('keydown', '.idea-title', persistTitle);
-$('.section__ideas').on('keydown', '.idea-body', persistBody);
-$('.section__search-field').on('keyup', searchIdeas);
+$sectionIdea.on('click', '.delete-x', deleteIdeas);
+$sectionIdea.on('click', '.upvote', upvoteIdea);
+$sectionIdea.on('click', '.downvote', downvoteIdea);
+$sectionIdea.on('keydown', '.idea-title', persistTitle);
+$sectionIdea.on('keydown', '.idea-body', persistBody);
+$sectionSearch.on('keyup', searchIdeas);
+$saveBtn.on('click', saveIdea);
+
+populatingIdeas();
+
+function Idea(id, ideaTitleValue, ideaBodyValue) {
+  this.id = id;
+  this.title = ideaTitleValue;
+  this.body = ideaBodyValue;
+  this.quality = 'quality: swill';
+}
 
 function saveIdea(event) {
   event.preventDefault();
-  var newIdea = new ConstructIdeas((jQuery.now()), $inputTitle.val(), $inputBody.val(), $quality)
+  var key = Date.now();
+  var newIdea = new Idea(key, $inputTitle.val(), $inputBody.val());
   sendToStorage(newIdea);
-  $('.section__ideas').prepend(`<article class="idea-cards" id="${newIdea.id}">
+  $('.section__ideas').prepend(`
+  <article class="idea-cards" id="${newIdea.id}">
     <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
     <article class="delete-x"></article>
     <p class="idea-body" contenteditable="true">${newIdea.body}</p>
     <article class="upvote"></article>
     <article class="downvote"></article>
     <h3 class="quality">${newIdea.quality}</h3>
-    </article>`);
+  </article>`);
   clearInputs();
   toggleDisableState();
 }
 
-function ConstructIdeas(id, title, body, quality) {
-  this.id = id;
-  this.title = title;
-  this.body = body;
-  this.quality = quality;
+function populatingIdeas() {
+  for (var i = 0; i < localStorage.length; i++) {
+    var stringifiedObject = localStorage.getItem(localStorage.key(i));
+    var idea = JSON.parse(stringifiedObject);
+    $('.section__ideas').prepend(`<article class="idea-cards" id=${idea.id}>
+      <h2 class="idea-title" contenteditable="true">${idea.title}</h2>
+      <article class="delete-x" aria-label="Button to delete idea"></article>
+      <p class="idea-body" contenteditable="true">${idea.body}</p>
+      <article class="upvote"></article>
+      <article class="downvote"></article>
+      <h3 class="quality">${idea.quality}</h3>
+      </article>`);
+  }
 }
 
 function sendToStorage(idea) {
   var stringifiedIdea = JSON.stringify(idea);
   localStorage.setItem(idea.id, stringifiedIdea)
-}
-
-function getFromStorage() {
-  var values = [];
-  var keys = Object.keys(localStorage);
-  for (var i = 0; i < keys.length; i++) {
-    values.push(JSON.parse(localStorage.getItem(keys[i])));
-    $('.section__ideas').prepend(`<article class="idea-cards" id="${values[i].id}">
-      <h2 class="idea-title" contenteditable="true">${values[i].title}</h2>
-      <article class="delete-x" aria-label="Button to delete idea"></article>
-      <p class="idea-body" contenteditable="true">${values[i].body}</p>
-      <article class="upvote"></article>
-      <article class="downvote"></article>
-      <h3 class="quality">${values[i].quality}</h3>
-      </article>`);
-  }
 }
 
 function clearInputs() {
@@ -108,27 +110,27 @@ function downvoteIdea() {
 
 function persistTitle(e) {
   if (e.keyCode === 13) {
-  e.preventDefault();
-  $inputTitle.focus();
+    e.preventDefault();
+    $inputTitle.focus();
   }
   var id = $(this).closest('.idea-cards').attr('id');
   var idea = localStorage.getItem(id);
   idea = JSON.parse(idea);
   idea.title = $(this).text();
-  var stringifiedIdea = JSON.stringify(idea)
+  var stringifiedIdea = JSON.stringify(idea);
   localStorage.setItem(id, stringifiedIdea);
 }
 
 function persistBody(e) {
   if (e.keyCode === 13) {
-  e.preventDefault();
-  $inputTitle.focus();
+    e.preventDefault();
+    $inputTitle.focus();
   }
   var id = $(this).closest('.idea-cards').attr('id');
   var idea = localStorage.getItem(id);
   idea = JSON.parse(idea);
   idea.body = $(this).text();
-  var stringifiedIdea = JSON.stringify(idea)
+  var stringifiedIdea = JSON.stringify(idea);
   localStorage.setItem(id, stringifiedIdea);
 }
 
@@ -136,7 +138,6 @@ function searchIdeas() {
   searchTitle();
   searchQuality();
   searchBody();
-
 }
 
 function searchQuality() {
