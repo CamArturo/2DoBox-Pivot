@@ -1,28 +1,28 @@
 @media screen and (max-width: 550px) {
-  
+
   article {
     width: 90%;
   }
 
-  .section__ideas {
+  .todo-list__ideas {
     width: 90%;
     margin: 337px auto 0;
   }
 
   h1 {
     font-size: 50px;
-    margin: 10px auto 0px;
+    margin: 10px auto 0;
   }
 
   input {
     height: 40px;
   }
 
-  .section__main {
+  main {
     height: 265px;
   }
 
-  .section__search-field {
-    margin: 272px auto 0px;
+  .todo-list__search-field {
+    margin: 272px auto 0;
   }
 }

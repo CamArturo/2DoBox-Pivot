@@ -1,25 +1,24 @@
-.idea__list {
+.todo-list {
   display: flex;
   justify-content: center;
 }
 
-.section__search-field {
-  margin: 384px auto 0px;
+.todo-list__search-field {
+  margin: 384px auto 0;
   width: 100%;
 }
 
-
-.section__ideas {
+.todo-list__ideas {
   display: flex;
   flex-direction: column;
-  margin: 463px auto 0px;
+  margin: 463px auto 0;
   position: absolute;
   width: 60%;
   z-index: -1;
 }
 
-.article__search-field {
-  background-color: #FFF;
+.todo-list__search {
+  background-color: #fff;
   position: fixed;
   z-index: 1;
 }
