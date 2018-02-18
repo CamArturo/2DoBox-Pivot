@@ -56,6 +56,7 @@ function populatingIdeas() {
     var stringifiedObject = localStorage.getItem(localStorage.key(i));
     var idea = JSON.parse(stringifiedObject);
     $('.section__ideas').prepend(`<article class="idea-cards" id=${idea.id}>
+      <p class = "checkMark">&#x02713</p>
       <h2 class="idea-title" contenteditable="true">${idea.title}</h2>
       <article class="delete-x" aria-label="Button to delete idea"></article>
       <p class="idea-body" contenteditable="true">${idea.body}</p>
