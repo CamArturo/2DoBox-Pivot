@@ -4,7 +4,7 @@
 }
 
 .section__search-field {
-  margin: 344px auto 0px;
+  margin: 384px auto 0px;
   width: 100%;
 }
 
@@ -12,7 +12,7 @@
 .section__ideas {
   display: flex;
   flex-direction: column;
-  margin: 423px auto 0px;
+  margin: 463px auto 0px;
   position: absolute;
   width: 60%;
   z-index: -1;

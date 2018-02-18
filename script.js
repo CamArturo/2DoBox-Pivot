@@ -9,6 +9,15 @@ $('.section__ideas').on('click', '.downvote', downvoteIdea);
 // $sectionIdea.on('keydown', '.idea-body', persistBody);
 $('.section__search-field').on('keyup', searchIdeas);
 $('.form__button-save').on('click', saveIdea);
+$('.section__ideas').on('click','.checkMark',changeReadClass);
+
+
+function changeReadClass(ev){
+  $(this).closest('.checkMark').toggleClass('checkMarkActive');
+  if('checkMarkActive'){
+  $(this).closest('.idea-cards').toggleClass('idea-cards-read');
+}
+}
 
 populatingIdeas();
 
@@ -17,6 +26,7 @@ function Idea(id, ideaTitleValue, ideaBodyValue) {
   this.title = ideaTitleValue;
   this.body = ideaBodyValue;
   this.quality = 'quality: swill';
+  this.completed = false;
 }
 
 function saveIdea(event) {
@@ -28,6 +38,7 @@ function saveIdea(event) {
   sendToStorage(newIdea);
   $('.section__ideas').prepend(`
   <article class="idea-cards" id="${newIdea.id}">
+    <p class = "checkMark">&#x02713</p>
     <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
     <article class="delete-x"></article>
     <p class="idea-body" contenteditable="true">${newIdea.body}</p>
@@ -104,20 +115,20 @@ function downvoteIdea() {
   changeStorageQuality(this)
 }
 
-function persistTitle(e) {
-  var $inputTitle = $('.form__input-title');
-  if (e.keyCode === 13) {
-    e.preventDefault();
-    $inputTitle.focus();
-  }
-  var id = $(this).closest('.idea-cards').attr('id');
-  var idea = localStorage.getItem(id);
-  idea = JSON.parse(idea);
-  idea.title = $(this).text();
-  idea.body = $(this).text();
-  var stringifiedIdea = JSON.stringify(idea);
-  localStorage.setItem(id, stringifiedIdea);
-}
+// function persistTitle(e) {
+//   var $inputTitle = $('.form__input-title');
+//   if (e.keyCode === 13) {
+//     e.preventDefault();
+//     $inputTitle.focus();
+//   }
+//   var id = $(this).closest('.idea-cards').attr('id');
+//   var idea = localStorage.getItem(id);
+//   idea = JSON.parse(idea);
+//   idea.title = $(this).text();
+//   idea.body = $(this).text();
+//   var stringifiedIdea = JSON.stringify(idea);
+//   localStorage.setItem(id, stringifiedIdea);
+// }
 
 function searchIdeas(){
   var $input = $('.section__search-field').val();
