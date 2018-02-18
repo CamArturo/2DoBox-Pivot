@@ -8,12 +8,17 @@
   width: 100%;
 }
 
+.idea-cards-read{
+  opacity: .4;
+  background-color: ghostwhite;
+} 
 
 .idea-title {
   color: #6D6E71;
   display: inline-block;
   font-weight: 700;
   margin-bottom: 10px;
+  margin-left:7px;
 }
 
 .delete-x {
@@ -30,9 +35,34 @@
   background-image: url(../images/delete-hover.svg);
 }
 
+.checkMark{
+  text-align: center;
+  border-radius: 100%;
+  display: inline-block;
+  color: #f1f1f1;
+  font-size: 18px;
+  width: 22px;
+  height: 22px;
+  line-height: 20px;
+  border: 1px solid #c7b9b9;
+  cursor: pointer;
+}
+
+.checkMark:hover{
+  color:#00a79d;;
+  border: 2px solid #00a79d;
+}
+
+.checkMarkActive{
+  background-color: #00a79d;
+  border: 2px solid #00a79d;
+  color: white;
+}
+
 .idea-body {
   color: #939598;
   margin-bottom: 10px;
+  margin-left: 28px;
 }
 
 .downvote, .upvote {
@@ -50,6 +80,7 @@
   height: 20px;
   width: 20px;
   z-index: 50;
+  margin-left: 28px;
 }
 
 .upvote:hover {

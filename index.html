@@ -19,14 +19,15 @@
     <article>
       <form>
         <input type="text" name="title" class="form__input-title form-inputs" placeholder="Title" aria-label="Input field for the title of your idea">
-        <input type="text" name="body" class="form__input-body form-inputs" placeholder="Body" aria-label="Input field for the body of your idea">
-        <input type="submit" name="save" class="form__button-save form-inputs" value="save" role="button" aria-label="Submit button to store your ideas" disabled>
+        <input type="text" name="body" class="form__input-body form-inputs" placeholder="Task" aria-label="Input field for the body of your idea">
+        <input type="submit" name="save" class="form__button-save form-inputs" value="save" role="button" aria-label="Submit button to store your ideas" disabled = true>
+        <p> Completed tasks!</p>  
       </form>
     </article>
   </section>
   <section class="idea__list">
     <article class="article__search-field">
-      <input type="text" name="search" class="section__search-field" placeholder="Search" aria-label="Search field to search through your ideas">
+      <input type="text" name="search" class="section__search-field" placeholder="Filter" aria-label="Search field to search through your ideas">
     </article>
     <section class="section__ideas" aria-live="polite"></section>
   </section>
