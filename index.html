@@ -4,34 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="css/main-form.css">
-  <link rel="stylesheet" type="text/css" href="css/idea-list.css">
-  <link rel="stylesheet" type="text/css" href="css/idea-cards.css">
+  <link rel="stylesheet" type="text/css" href="css/todo-list.css">
+  <link rel="stylesheet" type="text/css" href="css/todo-cards.css">
   <link rel="stylesheet" type="text/css" href="css/responsive.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab:400,700" rel="stylesheet">
-  <link rel="icon" href="images/ic_view_list_black_24dp_1x.png">
+  <link rel="icon" href="img/ic_view_list_black_24dp_1x.png">
   <title>2do Box</title>
 </head>
 <body>
-  <section class="section__main">
-    <header>
-      <h1>2Do<span>box</span></h1>
-    </header>
-    <article>
-      <form>
-        <input type="text" name="title" class="form__input-title form-inputs" placeholder="Title" aria-label="Input field for the title of your idea">
-        <input type="text" name="body" class="form__input-body form-inputs" placeholder="Task" aria-label="Input field for the body of your idea">
-        <input type="submit" name="save" class="form__button-save form-inputs" value="save" role="button" aria-label="Submit button to store your ideas" disabled = true>
-        <p> Completed tasks!</p>  
-      </form>
-    </article>
-  </section>
-  <section class="idea__list">
-    <article class="article__search-field">
-      <input type="text" name="search" class="section__search-field" placeholder="Filter" aria-label="Search field to search through your ideas">
-    </article>
-    <section class="section__ideas" aria-live="polite"></section>
-  </section>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script type="text/javascript" src="script.js"></script>
+<main>
+  <header>
+    <h1>2Do<span>box</span></h1>
+  </header>
+  <article class="todo-form">
+    <form>
+      <input type="text" name="title" class="todo-form__input-title form-input" placeholder="Title"
+             aria-label="Input field for the title of your idea">
+      <input type="text" name="body" class="todo-form__input-body form-input" placeholder="Task"
+             aria-label="Input field for the body of your idea">
+      <input type="submit" name="save" class="todo-form__button-save form-input" value="save" role="button"
+             aria-label="Submit button to store your ideas" disabled>
+      <p> Completed tasks!</p>
+    </form>
+  </article>
+</main>
+<section class="todo-list">
+  <article class="todo-list__search">
+    <input type="text" name="search" class="todo-list__search-field" placeholder="Filter"
+           aria-label="Search field to search through your ideas">
+  </article>
+  <section class="todo-list__ideas" aria-live="polite"></section>
+</section>
+<script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>

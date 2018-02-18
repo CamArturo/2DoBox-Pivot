@@ -1,5 +1,5 @@
 .idea-cards {
-  border-bottom: 3px solid #D1D3D4;
+  border-bottom: 3px solid #d1d3d4;
   margin-bottom: 20px;
   max-width: 600px;
   overflow-y: scroll;
@@ -8,34 +8,34 @@
   width: 100%;
 }
 
-.idea-cards-read{
+.idea-cards-read {
   opacity: .4;
   background-color: ghostwhite;
-} 
+}
 
 .idea-title {
-  color: #6D6E71;
+  color: #6d6e71;
   display: inline-block;
   font-weight: 700;
   margin-bottom: 10px;
-  margin-left:7px;
+  margin-left: 7px;
 }
 
 .delete-x {
-  background-image: url(../images/delete.svg);
+  background-image: url(../img/delete.svg);
   background-repeat: no-repeat;
   display: inline-block;
   float: right;
   height: 20px;
-  margin: 5px 5px 0px 0px;
+  margin: 5px 5px 0 0;
   width: 29px;
 }
 
 .delete-x:hover {
-  background-image: url(../images/delete-hover.svg);
+  background-image: url(../img/delete-hover.svg);
 }
 
-.checkMark{
+.checkMark {
   text-align: center;
   border-radius: 100%;
   display: inline-block;
@@ -48,12 +48,12 @@
   cursor: pointer;
 }
 
-.checkMark:hover{
-  color:#00a79d;;
+.checkMark:hover {
+  color: #00a79d;;
   border: 2px solid #00a79d;
 }
 
-.checkMarkActive{
+.checkMarkActive {
   background-color: #00a79d;
   border: 2px solid #00a79d;
   color: white;
@@ -65,7 +65,8 @@
   margin-left: 28px;
 }
 
-.downvote, .upvote {
+.downvote,
+.upvote {
   display: inline-block;
   float: left;
   height: 20px;
@@ -73,7 +74,7 @@
 }
 
 .upvote {
-  background-image: url(../images/upvote.svg);
+  background-image: url(../img/upvote.svg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 20px;
@@ -84,11 +85,11 @@
 }
 
 .upvote:hover {
-  background-image: url(../images/upvote-hover.svg);
+  background-image: url(../img/upvote-hover.svg);
 }
 
 .downvote {
-  background-image: url(../images/downvote.svg);
+  background-image: url(../img/downvote.svg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 20px;
@@ -98,12 +99,29 @@
 }
 
 .downvote:hover {
-  background-image: url(../images/downvote-hover.svg);
+  background-image: url(../img/downvote-hover.svg);
 }
 
 .quality {
-  color: #6D6E71;
+  color: #6d6e71;
   font-size: 15px;
   margin-top: 5px;
   text-align: left;
+}
+
+.importance {
+  color: #6d6e71;
+  font-size: 15px;
+  margin-top: 8px;
+  text-align: left;
+  float: left;
+}
+
+.completedBtn {
+  float: right;
+  margin: 0;
+  padding: 10px;
+  background-color: #00a79d;
+  color: #fff;
+  font-size: 0.9rem;
 }
