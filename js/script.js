@@ -9,13 +9,8 @@ $('.todo-list__search-field').on('keyup', searchIdeas);
 $('.todo-list__ideas').on('click', '.checkMark', changeReadClass);
 $('.todo-form__button-save').on('click', saveIdea);
 $('.completedBtn').on('click', saveIdea);
+$('.completedTask').on('click', sortCompleted);
 
-function changeReadClass(ev) {
-  $(this).closest('.checkMark').toggleClass('checkMarkActive');
-  if ('checkMarkActive') {
-    $(this).closest('.idea-cards').toggleClass('idea-cards-read');
-  }
-}
 
 populatingIdeas();
 
@@ -61,6 +56,7 @@ function populatingIdeas() {
     var stringifiedObject = localStorage.getItem(localStorage.key(i));
     var idea = JSON.parse(stringifiedObject);
     $('.todo-list__ideas').prepend(`<article class="idea-cards" id=${idea.key}>
+      <p class = "checkMark">&#x02713</p>
       <h2 class="idea-title" contenteditable="true">${idea.title}</h2>
       <article class="delete-x" aria-label="Button to delete idea"></article>
       <p class="idea-body" contenteditable="true">${idea.body}</p>
@@ -91,6 +87,26 @@ function deleteIdeas() {
   $(this).closest('.idea-cards').fadeOut();
   var key = $(this).closest('.idea-cards').attr('id');
   localStorage.removeItem(key);
+}
+
+function changeReadClass(ev) {
+  $(this).closest('.checkMark').toggleClass('checkMarkActive');
+  if ('checkMarkActive') {
+    $(this).closest('.idea-cards').toggleClass('idea-cards-read');
+  }
+}
+
+function sortCompleted(){
+ var showCompleted = $('.completedTask').text();
+ if(showCompleted === "Show completed tasks"){
+  $('.completedTask').text('Show All');
+  var cards = $('.idea-cards').hide();
+  var completed = $('.idea-cards-read').show();
+} else{
+  $('.completedTask').text('Show completed tasks');
+   var cards = $('.idea-cards').show();
+   var completed = $('.idea-cards-read').hide();
+ }
 }
 
 function changeStorageQuality(newthis) {

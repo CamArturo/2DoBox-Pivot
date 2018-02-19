@@ -4,7 +4,7 @@
 }
 
 .todo-list__search-field {
-  margin: 384px auto 0;
+  margin: 344px auto 0;
   width: 100%;
 }
 
@@ -21,4 +21,14 @@
   background-color: #fff;
   position: fixed;
   z-index: 1;
+}
+
+.completedTask{
+  margin: 18px 0px 10px 15px;
+  cursor: pointer;
+  color: #00a79c;
+}
+
+.showAll{
+  color:red;
 }
