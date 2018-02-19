@@ -1,39 +1,48 @@
 $('.todo-form__input-title').on('keyup', toggleDisableState);
 $('.todo-form__input-body').on('keyup', toggleDisableState);
+$('.todo-list__search-field').on('keyup', searchIdeas);
+$('.todo-form__button-save').on('click', saveIdea);
 $('.todo-list__ideas').on('click', '.delete-x', deleteIdeas);
 $('.todo-list__ideas').on('click', '.upvote', upvoteIdea);
 $('.todo-list__ideas').on('click', '.downvote', downvoteIdea);
-$('.todo-list__search-field').on('keyup', searchIdeas);
 $('.todo-list__ideas').on('click', '.checkMark', changeReadClass);
-$('.todo-form__button-save').on('click', saveIdea);
-// $('.completedBtn').on('click', saveIdea);
-$('.completedTask').on('click', sortCompleted);
-$('.todo-list__ideas').on('keyup click', function(event){
+$('.todo-list__ideas').on('keyup blur', function (event) {
   saveUpdates(event);
 });
-
+$('.completedTask').on('click', sortCompleted);
+$('.todo-list__ideas').on('keydown blur', '.idea-title', disableEditable);
+$('.todo-list__ideas').on('keydown blur', '.idea-body', disableEditable);
+$('.todo-list__ideas').on('click', '.idea-title', enableEditable);
+$('.todo-list__ideas').on('click', '.idea-body', enableEditable);
 
 populatingIdeas();
 
-function saveUpdates(ev){
-  var ideaElement = ev.target.closest('.idea-cards');
-  var updatedIdea = new existingIdea(ideaElement);
- sendToStorage(updatedIdea);
+function disableEditable() {
+  if (event.keyCode === 13 || event.type === 'focusout') {
+    $(this).attr('contentEditable', false);
+  }
+
 }
 
-function existingIdea(el){
+function enableEditable() {
+  $(this).attr('contentEditable', true);
+
+}
+
+function saveUpdates(ev) {
+  var ideaElement = ev.target.closest('.idea-cards');
+  var updatedIdea = new existingIdea(ideaElement);
+  sendToStorage(updatedIdea);
+}
+
+function existingIdea(el) {
   //this.levelsImportance = $(el).find('?').text();
   this.key = el.id;
   this.title = $(el).find('.idea-title').text();
   this.body = $(el).find('.idea-body').text();
-  if(el.classList.contains('idea-cards-read')){
-    this.completed = true;
-  } else {
-    this.completed = false;
-  }
+  this.completed = el.classList.contains('idea-cards-read');
   //this.importanceValue = $(ideaElement).find('?').text();
 }
-
 
 function Idea(key, ideaTitleValue, ideaBodyValue) {
   this.levelsImportance = [
@@ -83,10 +92,10 @@ function populatingIdeas() {
       <article class="upvote"></article>
       <article class="downvote"></article>
       </article>`);
-     if(idea.completed == true){
-        var ideaEl = document.getElementById(idea.key);
-        ideaEl.classList.add("idea-cards-read");
-        ideaEl.querySelector('.checkMark').classList.add('checkMarkActive');
+    if (idea.completed === true) {
+      var ideaEl = document.getElementById(idea.key);
+      ideaEl.classList.add("idea-cards-read");
+      ideaEl.querySelector('.checkMark').classList.add('checkMarkActive');
     }
   }
 }
@@ -120,19 +129,18 @@ function changeReadClass(ev) {
   }
 }
 
-function sortCompleted(){
- var showCompleted = $('.completedTask').text();
- if(showCompleted === "Show completed tasks"){
-  $('.completedTask').text('Show All');
-  var cards = $('.idea-cards').hide();
-  var completed = $('.idea-cards-read').show();
-} else{
-  $('.completedTask').text('Show completed tasks');
-   var cards = $('.idea-cards').show();
-   var completed = $('.idea-cards-read').hide();
- }
+function sortCompleted() {
+  var showCompleted = $('.completedTask').text();
+  if (showCompleted === "Show completed tasks") {
+    $('.completedTask').text('Show All');
+    var cards = $('.idea-cards').hide();
+    var completed = $('.idea-cards-read').show();
+  } else {
+    $('.completedTask').text('Show completed tasks');
+    var cards = $('.idea-cards').show();
+    var completed = $('.idea-cards-read').hide();
+  }
 }
-
 
 function upvoteIdea() {
   if ($(this).siblings('h3').text() === 'quality: swill') {
@@ -151,7 +159,6 @@ function downvoteIdea() {
   }
   changeStorageQuality(this)
 }
-
 
 function searchIdeas() {
   var $input = $('.todo-list__search-field').val();
