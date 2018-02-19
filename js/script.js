@@ -3,16 +3,37 @@ $('.todo-form__input-body').on('keyup', toggleDisableState);
 $('.todo-list__ideas').on('click', '.delete-x', deleteIdeas);
 $('.todo-list__ideas').on('click', '.upvote', upvoteIdea);
 $('.todo-list__ideas').on('click', '.downvote', downvoteIdea);
-// $sectionIdea.on('keydown', '.idea-title', persistTitle);
-// $sectionIdea.on('keydown', '.idea-body', persistBody);
 $('.todo-list__search-field').on('keyup', searchIdeas);
 $('.todo-list__ideas').on('click', '.checkMark', changeReadClass);
 $('.todo-form__button-save').on('click', saveIdea);
-$('.completedBtn').on('click', saveIdea);
+// $('.completedBtn').on('click', saveIdea);
 $('.completedTask').on('click', sortCompleted);
+$('.todo-list__ideas').on('keyup click', function(event){
+  saveUpdates(event);
+});
 
 
 populatingIdeas();
+
+function saveUpdates(ev){
+  var ideaElement = ev.target.closest('.idea-cards');
+  var updatedIdea = new existingIdea(ideaElement);
+ sendToStorage(updatedIdea);
+}
+
+function existingIdea(el){
+  //this.levelsImportance = $(el).find('?').text();
+  this.key = el.id;
+  this.title = $(el).find('.idea-title').text();
+  this.body = $(el).find('.idea-body').text();
+  if(el.classList.contains('idea-cards-read')){
+    this.completed = true;
+  } else {
+    this.completed = false;
+  }
+  //this.importanceValue = $(ideaElement).find('?').text();
+}
+
 
 function Idea(key, ideaTitleValue, ideaBodyValue) {
   this.levelsImportance = [
@@ -44,7 +65,6 @@ function saveIdea(event) {
     <p class="idea-body" contenteditable="true">${newIdea.body}</p>
     <article class="upvote"></article>
     <article class="downvote"></article>
-    <button class="completedBtn">Completed Task</button>
   </article>`);
   $('form').trigger("reset");
   $inputTitle.focus();
@@ -62,8 +82,12 @@ function populatingIdeas() {
       <p class="idea-body" contenteditable="true">${idea.body}</p>
       <article class="upvote"></article>
       <article class="downvote"></article>
-      <button class="completedBtn">Completed Task</button>
       </article>`);
+     if(idea.completed == true){
+        var ideaEl = document.getElementById(idea.key);
+        ideaEl.classList.add("idea-cards-read");
+        ideaEl.querySelector('.checkMark').classList.add('checkMarkActive');
+    }
   }
 }
 
@@ -109,14 +133,6 @@ function sortCompleted(){
  }
 }
 
-function changeStorageQuality(newthis) {
-  var key = $(newthis).closest('.idea-cards').attr('id');
-  var idea = localStorage.getItem(key);
-  idea = JSON.parse(idea);
-  idea.quality = $(newthis).siblings('h3').text();
-  var stringifiedIdea = JSON.stringify(idea);
-  localStorage.setItem(key, stringifiedIdea);
-}
 
 function upvoteIdea() {
   if ($(this).siblings('h3').text() === 'quality: swill') {
@@ -136,20 +152,6 @@ function downvoteIdea() {
   changeStorageQuality(this)
 }
 
-// function persistTitle(e) {
-//   var $inputTitle = $('.todo-form__input-title');
-//   if (e.keyCode === 13) {
-//     e.preventDefault();
-//     $inputTitle.focus();
-//   }
-//   var id = $(this).closest('.idea-cards').attr('id');
-//   var idea = localStorage.getItem(id);
-//   idea = JSON.parse(idea);
-//   idea.title = $(this).text();
-//   idea.body = $(this).text();
-//   var stringifiedIdea = JSON.stringify(idea);
-//   localStorage.setItem(id, stringifiedIdea);
-// }
 
 function searchIdeas() {
   var $input = $('.todo-list__search-field').val();
