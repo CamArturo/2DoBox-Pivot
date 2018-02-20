@@ -19,21 +19,16 @@ $('.todo-list__ideas').on('click', '.idea-body', enableEditable);
 
 populatingIdeas();
 
-function disableEditable() {
-  if (event.keyCode === 13 || event.type === 'focusout') {
-    $(this).attr('contentEditable', false);
-  }
-}
-
-function enableEditable() {
-  $(this).attr('contentEditable', true);
-}
-
 function saveUpdates(event) {
-  var ideaElement = event.target.closest('.idea-cards');
-  var key = ideaElement.id;
-  var updatedIdea = new existingIdea(ideaElement);
-  sendToStorage(key, updatedIdea);
+  // var ideaElement = event.target.closest('.idea-cards');
+  var key =  $(this).closest('.idea-cards').attr('id');
+  var idea = JSON.parse(localStorage.getItem(key));
+  var $inputTitleValue = $('.idea-title').text();
+  var $inputBodyValue = $('.idea-body').text();
+  idea.title = $inputTitleValue;
+  idea.body = $inputBodyValue;
+  // var updatedIdea = new existingIdea(ideaElement);
+  sendToStorage(key, idea);
 }
 
 function existingIdea(el) {
@@ -46,13 +41,6 @@ function existingIdea(el) {
 }
 
 function Idea(key, ideaTitleValue, ideaBodyValue) {
-  this.levelsImportance = [
-    'None',
-    'Low',
-    'Normal',
-    'High',
-    'Critical'
-  ];
   this.key = key;
   this.title = ideaTitleValue;
   this.body = ideaBodyValue;
@@ -83,7 +71,7 @@ function saveIdea(event) {
           </button>
               <button class="1 low" type="button"><i class="fas fa-flag"></i>
           </button>
-              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
+              <button class="2 normal selected-flag" title="Normal" type="button"><i class="fas fa-flag"></i>
           </button>
               <button class="3 high" type="button"><i class="fas fa-flag"></i>
           </button>
@@ -101,7 +89,100 @@ function populatingIdeas() {
   for (var i = 0; i < localStorage.length; i++) {
     var stringifiedObject = localStorage.getItem(localStorage.key(i));
     var newIdea = JSON.parse(stringifiedObject);
-    $('.todo-list__ideas').prepend(`<article class="idea-cards" id="${newIdea.key}">
+    var selectFlagNum = newIdea.importanceValue;
+    var arrCardPossible = [`<article class="idea-cards" id="${newIdea.key}">
+    <p class = "checkMark">&#x02713</p>
+    <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
+    <article class="delete-x"></article>
+    <p class="idea-body" contenteditable="true">${newIdea.body}</p>
+    <section class="icons">
+      <section class="vote-buttons">
+        <article class="upvote"></article>
+        <article class="downvote"></article>
+      </section>
+      <section class="flags">
+          <button class="0 none selected-flag" title="None" type="button"><i class="far fa-flag"></i></i>
+          </button>
+              <button class="1 low" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="3 high" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
+          </button>
+      </section>
+    </section>
+  </article>`, `<article class="idea-cards" id="${newIdea.key}">
+    <p class = "checkMark">&#x02713</p>
+    <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
+    <article class="delete-x"></article>
+    <p class="idea-body" contenteditable="true">${newIdea.body}</p>
+    <section class="icons">
+      <section class="vote-buttons">
+        <article class="upvote"></article>
+        <article class="downvote"></article>
+      </section>
+      <section class="flags">
+          <button class="0 none" type="button"><i class="far fa-flag"></i></i>
+          </button>
+              <button class="1 low selected-flag" title="Low" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="3 high" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
+          </button>
+      </section>
+    </section>
+  </article>`, `<article class="idea-cards" id="${newIdea.key}">
+    <p class = "checkMark">&#x02713</p>
+    <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
+    <article class="delete-x"></article>
+    <p class="idea-body" contenteditable="true">${newIdea.body}</p>
+    <section class="icons">
+      <section class="vote-buttons">
+        <article class="upvote"></article>
+        <article class="downvote"></article>
+      </section>
+      <section class="flags">
+          <button class="0 none" type="button"><i class="far fa-flag"></i></i>
+          </button>
+              <button class="1 low" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="2 normal selected-flag" title="Normal" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="3 high" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
+          </button>
+      </section>
+    </section>
+  </article>`, `<article class="idea-cards" id="${newIdea.key}">
+    <p class = "checkMark">&#x02713</p>
+    <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
+    <article class="delete-x"></article>
+    <p class="idea-body" contenteditable="true">${newIdea.body}</p>
+    <section class="icons">
+      <section class="vote-buttons">
+        <article class="upvote"></article>
+        <article class="downvote"></article>
+      </section>
+      <section class="flags">
+          <button class="0 none" type="button"><i class="far fa-flag"></i></i>
+          </button>
+              <button class="1 low" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="3 high selected-flag" title="High" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
+          </button>
+      </section>
+    </section>
+  </article>`, `<article class="idea-cards" id="${newIdea.key}">
     <p class = "checkMark">&#x02713</p>
     <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
     <article class="delete-x"></article>
@@ -120,11 +201,12 @@ function populatingIdeas() {
           </button>
               <button class="3 high" type="button"><i class="fas fa-flag"></i>
           </button>
-              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
+              <button class="4 critical selected-flag" title="Critical" type="button"><i class="fas fa-flag"></i>
           </button>
       </section>
     </section>
-  </article>`);
+  </article>`];
+    $('.todo-list__ideas').prepend(arrCardPossible[selectFlagNum]);
     if (newIdea.completed === true) {
       var ideaEl = document.getElementById(idea.key);
       ideaEl.classList.add("idea-cards-read");
@@ -178,29 +260,23 @@ function sortCompleted() {
 function upvoteIdea(event) {
   var key =  $(this).closest('.idea-cards').attr('id');
   var idea = JSON.parse(localStorage.getItem(key));
-
-  if (idea.importanceValue >= 0 && idea.importanceValue <= 4) {
-    idea.importanceValue = idea.importanceValue + 1;
+  if (idea.importanceValue >= 0 && idea.importanceValue <= 3) {
+    idea.importanceValue += 1;
+    $(this).parent().next().find('.selected-flag').next().addClass('selected-flag');
+    $(this).parent().next().find('.selected-flag').first().removeClass('selected-flag');
   }
-  console.log(idea);
   localStorage.setItem(key, JSON.stringify(idea));
-
-  // console.log($('.icons'));
-
-  // border: 1.5px solid #00a79c;
-  // border-radius: 5px;
-  // background-color: #eee;
-
-  // changeStorageQuality(this)
 }
 
-function downvoteIdea() {
-  if ($(this).siblings('h3').text() === 'quality: genius') {
-    $(this).siblings('h3').text('quality: plausible')
-  } else if ($(this).siblings('h3').text() === 'quality: plausible') {
-    $(this).siblings('h3').text('quality: swill')
+function downvoteIdea(event) {
+  var key =  $(this).closest('.idea-cards').attr('id');
+  var idea = JSON.parse(localStorage.getItem(key));
+  if (idea.importanceValue >= 1 && idea.importanceValue <= 4) {
+    idea.importanceValue -= 1;
+    $(this).parent().next().find('.selected-flag').prev().addClass('selected-flag');
+    $(this).parent().next().find('.selected-flag').last().removeClass('selected-flag');
   }
-  // changeStorageQuality(this)
+  localStorage.setItem(key, JSON.stringify(idea));
 }
 
 function searchIdeas() {
@@ -218,4 +294,14 @@ function searchIdeas() {
       $(card[i]).hide();
     }
   }
+}
+
+function disableEditable() {
+  if (event.keyCode === 13 || event.type === 'focusout') {
+    $(this).attr('contentEditable', false);
+  }
+}
+
+function enableEditable() {
+  $(this).attr('contentEditable', true);
 }
