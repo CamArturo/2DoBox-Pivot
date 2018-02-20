@@ -46,11 +46,11 @@ function existingIdea(el) {
 
 function Idea(key, ideaTitleValue, ideaBodyValue) {
   this.levelsImportance = [
-    'Critical',
-    'High',
-    'Normal',
+    'None',
     'Low',
-    'None'
+    'Normal',
+    'High',
+    'Critical'
   ];
   this.key = key;
   this.title = ideaTitleValue;
@@ -72,8 +72,24 @@ function saveIdea(event) {
     <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
     <article class="delete-x"></article>
     <p class="idea-body" contenteditable="true">${newIdea.body}</p>
-    <article class="upvote"></article>
-    <article class="downvote"></article>
+    <section class="icons">
+      <section class="vote-buttons">
+        <article class="upvote"></article>
+        <article class="downvote"></article>
+      </section>
+      <section class="flags">
+          <button class="0 " type="button"><i class="far fa-flag"></i>
+          </button>
+              <button class="1 low" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="3 high" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
+          </button>
+      </section>
+    </section>
   </article>`);
   $('form').trigger("reset");
   $inputTitle.focus();
@@ -83,16 +99,32 @@ function saveIdea(event) {
 function populatingIdeas() {
   for (var i = 0; i < localStorage.length; i++) {
     var stringifiedObject = localStorage.getItem(localStorage.key(i));
-    var idea = JSON.parse(stringifiedObject);
-    $('.todo-list__ideas').prepend(`<article class="idea-cards" id=${idea.key}>
-      <p class = "checkMark">&#x02713</p>
-      <h2 class="idea-title" contenteditable="true">${idea.title}</h2>
-      <article class="delete-x" aria-label="Button to delete idea"></article>
-      <p class="idea-body" contenteditable="true">${idea.body}</p>
-      <article class="upvote"></article>
-      <article class="downvote"></article>
-      </article>`);
-    if (idea.completed === true) {
+    var newIdea = JSON.parse(stringifiedObject);
+    $('.todo-list__ideas').prepend(`<article class="idea-cards" id="${newIdea.key}">
+    <p class = "checkMark">&#x02713</p>
+    <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
+    <article class="delete-x"></article>
+    <p class="idea-body" contenteditable="true">${newIdea.body}</p>
+    <section class="icons">
+      <section class="vote-buttons">
+        <article class="upvote"></article>
+        <article class="downvote"></article>
+      </section>
+      <section class="flags">
+          <button class="0 none" type="button"><i class="far fa-flag"></i></i>
+          </button>
+              <button class="1 low" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="3 high" type="button"><i class="fas fa-flag"></i>
+          </button>
+              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
+          </button>
+      </section>
+    </section>
+  </article>`);
+    if (newIdea.completed === true) {
       var ideaEl = document.getElementById(idea.key);
       ideaEl.classList.add("idea-cards-read");
       ideaEl.querySelector('.checkMark').classList.add('checkMarkActive');
@@ -143,12 +175,23 @@ function sortCompleted() {
 }
 
 function upvoteIdea() {
-  if ($(this).siblings('h3').text() === 'quality: swill') {
-    $(this).siblings('h3').text('quality: plausible');
-  } else if ($(this).siblings('h3').text() === 'quality: plausible') {
-    $(this).siblings('h3').text('quality: genius');
+  var key = $(newthis).closest('.idea-cards').attr('id');
+  var idea = localStorage.getItem(key);
+  idea = JSON.parse(idea);
+  if (idea.importanceValue > 0 && idea.importanceValue <=5 ) {
+    idea.importanceValue = idea.importanceValue + 1;
   }
-  changeStorageQuality(this)
+  $(this).parent().siblings('.flags button')
+
+  if button class === idea.importanceValue
+
+  // border: 1.5px solid #00a79c;
+  // border-radius: 5px;
+  //     background-color: #eee;
+  var stringifiedIdea = JSON.stringify(idea);
+  localStorage.setItem(key, stringifiedIdea);
+
+  // changeStorageQuality(this)
 }
 
 function downvoteIdea() {
@@ -157,7 +200,7 @@ function downvoteIdea() {
   } else if ($(this).siblings('h3').text() === 'quality: plausible') {
     $(this).siblings('h3').text('quality: swill')
   }
-  changeStorageQuality(this)
+  // changeStorageQuality(this)
 }
 
 function searchIdeas() {
