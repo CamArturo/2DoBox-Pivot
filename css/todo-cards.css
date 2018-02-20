@@ -1,5 +1,5 @@
 .idea-cards {
-  border-bottom: 3px solid #d1d3d4;
+  border-bottom: 1px solid #d1d3d4;
   margin-bottom: 20px;
   max-width: 600px;
   padding-bottom: 15px;
@@ -136,4 +136,15 @@
 
 .critical {
   color: #ff0000;
+}
+
+.flags svg {
+  font-size: 1.4em;
+}
+
+.selected-flag {
+  border: 2px solid #00a79c;
+  border-radius: 5px;
+  background-color: #eee;
+  box-sizing: border-box;
 }

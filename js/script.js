@@ -19,21 +19,16 @@ $('.todo-list__ideas').on('click', '.idea-body', enableEditable);
 
 populatingIdeas();
 
-function disableEditable() {
-  if (event.keyCode === 13 || event.type === 'focusout') {
-    $(this).attr('contentEditable', false);
-  }
-}
-
-function enableEditable() {
-  $(this).attr('contentEditable', true);
-}
-
 function saveUpdates(event) {
-  var ideaElement = event.target.closest('.idea-cards');
-  var key = ideaElement.id;
-  var updatedIdea = new existingIdea(ideaElement);
-  sendToStorage(key, updatedIdea);
+  // var ideaElement = event.target.closest('.idea-cards');
+  var key =  $(this).closest('.idea-cards').attr('id');
+  var idea = JSON.parse(localStorage.getItem(key));
+  var $inputTitleValue = $('.idea-title').text();
+  var $inputBodyValue = $('.idea-body').text();
+  idea.title = $inputTitleValue;
+  idea.body = $inputBodyValue;
+  // var updatedIdea = new existingIdea(ideaElement);
+  sendToStorage(key, idea);
 }
 
 function existingIdea(el) {
@@ -83,7 +78,7 @@ function saveIdea(event) {
           </button>
               <button class="1 low" type="button"><i class="fas fa-flag"></i>
           </button>
-              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
+              <button class="2 normal selected-flag" type="button"><i class="fas fa-flag"></i>
           </button>
               <button class="3 high" type="button"><i class="fas fa-flag"></i>
           </button>
@@ -178,29 +173,24 @@ function sortCompleted() {
 function upvoteIdea(event) {
   var key =  $(this).closest('.idea-cards').attr('id');
   var idea = JSON.parse(localStorage.getItem(key));
-
-  if (idea.importanceValue >= 0 && idea.importanceValue <= 4) {
-    idea.importanceValue = idea.importanceValue + 1;
+  if (idea.importanceValue >= 0 && idea.importanceValue <= 3) {
+    idea.importanceValue += 1;
+    $('.selected-flag').next().addClass('selected-flag');
+    $('.selected-flag').first().removeClass('selected-flag');
   }
-  console.log(idea);
   localStorage.setItem(key, JSON.stringify(idea));
-
-  // console.log($('.icons'));
-
-  // border: 1.5px solid #00a79c;
-  // border-radius: 5px;
-  // background-color: #eee;
-
-  // changeStorageQuality(this)
 }
 
-function downvoteIdea() {
-  if ($(this).siblings('h3').text() === 'quality: genius') {
-    $(this).siblings('h3').text('quality: plausible')
-  } else if ($(this).siblings('h3').text() === 'quality: plausible') {
-    $(this).siblings('h3').text('quality: swill')
+function downvoteIdea(event) {
+  var key =  $(this).closest('.idea-cards').attr('id');
+  var idea = JSON.parse(localStorage.getItem(key));
+
+  if (idea.importanceValue >= 1 && idea.importanceValue <= 4) {
+    idea.importanceValue -= 1;
+    $('.selected-flag').prev().addClass('selected-flag');
+    $('.selected-flag').last().removeClass('selected-flag');
   }
-  // changeStorageQuality(this)
+  localStorage.setItem(key, JSON.stringify(idea));
 }
 
 function searchIdeas() {
@@ -218,4 +208,14 @@ function searchIdeas() {
       $(card[i]).hide();
     }
   }
+}
+
+function disableEditable() {
+  if (event.keyCode === 13 || event.type === 'focusout') {
+    $(this).attr('contentEditable', false);
+  }
+}
+
+function enableEditable() {
+  $(this).attr('contentEditable', true);
 }
