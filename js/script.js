@@ -6,9 +6,11 @@ $('.todo-list__ideas').on('click', '.delete-x', deleteIdeas);
 $('.todo-list__ideas').on('click', '.upvote', upvoteIdea);
 $('.todo-list__ideas').on('click', '.downvote', downvoteIdea);
 $('.todo-list__ideas').on('click', '.checkMark', changeReadClass);
-$('.todo-list__ideas').on('keyup click', function (event) {
-  saveUpdates(event);
-});
+$('.todo-list__ideas').on('keyup', '.idea-title', saveUpdates);
+$('.todo-list__ideas').on('keyup', '.idea-body', saveUpdates);
+// $('.todo-list__ideas').on('keyup click', function (event) {
+//   saveUpdates(event);
+// });
 $('.completedTask').on('click', sortCompleted);
 $('.todo-list__ideas').on('keydown blur', '.idea-title', disableEditable);
 $('.todo-list__ideas').on('keydown blur', '.idea-body', disableEditable);
@@ -27,10 +29,11 @@ function enableEditable() {
   $(this).attr('contentEditable', true);
 }
 
-function saveUpdates(ev) {
-  var ideaElement = ev.target.closest('.idea-cards');
+function saveUpdates(event) {
+  var ideaElement = event.target.closest('.idea-cards');
+  var key = ideaElement.id;
   var updatedIdea = new existingIdea(ideaElement);
-  sendToStorage(updatedIdea);
+  sendToStorage(key, updatedIdea);
 }
 
 function existingIdea(el) {
@@ -63,7 +66,7 @@ function saveIdea(event) {
   var $inputTitle = $('.todo-form__input-title');
   var $inputBody = $('.todo-form__input-body');
   var newIdea = new Idea(key, $inputTitle.val(), $inputBody.val());
-  sendToStorage(newIdea);
+  sendToStorage(key, newIdea);
   $('.todo-list__ideas').prepend(`
   <article class="idea-cards" id="${newIdea.key}">
     <p class = "checkMark">&#x02713</p>
@@ -131,9 +134,9 @@ function populatingIdeas() {
   }
 }
 
-function sendToStorage(idea) {
+function sendToStorage(key, idea) {
   var stringifiedIdea = JSON.stringify(idea);
-  localStorage.setItem(idea.key, stringifiedIdea)
+  localStorage.setItem(key, stringifiedIdea)
 }
 
 function toggleDisableState() {
@@ -172,22 +175,21 @@ function sortCompleted() {
   }
 }
 
-function upvoteIdea() {
-  var key = $(newthis).closest('.idea-cards').attr('id');
-  var idea = localStorage.getItem(key);
-  idea = JSON.parse(idea);
-  if (idea.importanceValue > 0 && idea.importanceValue <=5 ) {
+function upvoteIdea(event) {
+  var key =  $(this).closest('.idea-cards').attr('id');
+  var idea = JSON.parse(localStorage.getItem(key));
+
+  if (idea.importanceValue >= 0 && idea.importanceValue <= 4) {
     idea.importanceValue = idea.importanceValue + 1;
   }
-  $(this).parent().siblings('.flags button')
+  console.log(idea);
+  localStorage.setItem(key, JSON.stringify(idea));
 
-  if button class === idea.importanceValue
+  // console.log($('.icons'));
 
   // border: 1.5px solid #00a79c;
   // border-radius: 5px;
-  //     background-color: #eee;
-  var stringifiedIdea = JSON.stringify(idea);
-  localStorage.setItem(key, stringifiedIdea);
+  // background-color: #eee;
 
   // changeStorageQuality(this)
 }
