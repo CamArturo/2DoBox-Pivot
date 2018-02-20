@@ -113,15 +113,6 @@
   justify-content: space-between;
 }
 
-.completedBtn {
-  float: right;
-  margin: 0;
-  padding: 10px;
-  background-color: #00a79d;
-  color: #fff;
-  font-size: 0.9rem;
-}
-
 .low {
   color: #d8cf59;
 }

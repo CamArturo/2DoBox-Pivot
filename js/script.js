@@ -262,8 +262,8 @@ function upvoteIdea(event) {
   var idea = JSON.parse(localStorage.getItem(key));
   if (idea.importanceValue >= 0 && idea.importanceValue <= 3) {
     idea.importanceValue += 1;
-    $('.selected-flag').next().addClass('selected-flag');
-    $('.selected-flag').first().removeClass('selected-flag');
+    $(this).parent().next().find('.selected-flag').next().addClass('selected-flag');
+    $(this).parent().next().find('.selected-flag').first().removeClass('selected-flag');
   }
   localStorage.setItem(key, JSON.stringify(idea));
 }
@@ -273,8 +273,8 @@ function downvoteIdea(event) {
   var idea = JSON.parse(localStorage.getItem(key));
   if (idea.importanceValue >= 1 && idea.importanceValue <= 4) {
     idea.importanceValue -= 1;
-    $('.selected-flag').prev().addClass('selected-flag');
-    $('.selected-flag').last().removeClass('selected-flag');
+    $(this).parent().next().find('.selected-flag').prev().addClass('selected-flag');
+    $(this).parent().next().find('.selected-flag').last().removeClass('selected-flag');
   }
   localStorage.setItem(key, JSON.stringify(idea));
 }
