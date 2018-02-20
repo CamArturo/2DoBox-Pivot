@@ -6,7 +6,7 @@ $('.todo-list__ideas').on('click', '.delete-x', deleteIdeas);
 $('.todo-list__ideas').on('click', '.upvote', upvoteIdea);
 $('.todo-list__ideas').on('click', '.downvote', downvoteIdea);
 $('.todo-list__ideas').on('click', '.checkMark', changeReadClass);
-$('.todo-list__ideas').on('keyup blur', function (event) {
+$('.todo-list__ideas').on('keyup click', function (event) {
   saveUpdates(event);
 });
 $('.completedTask').on('click', sortCompleted);
@@ -21,12 +21,10 @@ function disableEditable() {
   if (event.keyCode === 13 || event.type === 'focusout') {
     $(this).attr('contentEditable', false);
   }
-
 }
 
 function enableEditable() {
   $(this).attr('contentEditable', true);
-
 }
 
 function saveUpdates(ev) {
@@ -128,6 +126,7 @@ function populatingIdeas() {
       var ideaEl = document.getElementById(idea.key);
       ideaEl.classList.add("idea-cards-read");
       ideaEl.querySelector('.checkMark').classList.add('checkMarkActive');
+      $('.idea-cards-read').hide()
     }
   }
 }
@@ -170,7 +169,6 @@ function sortCompleted() {
   } else {
     $('.completedTask').text('Show completed tasks');
     var cards = $('.idea-cards').show();
-    var completed = $('.idea-cards-read').hide();
   }
 }
 
