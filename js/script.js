@@ -8,9 +8,6 @@ $('.todo-list__ideas').on('click', '.downvote', downvoteIdea);
 $('.todo-list__ideas').on('click', '.checkMark', changeReadClass);
 $('.todo-list__ideas').on('keyup', '.idea-title', saveUpdates);
 $('.todo-list__ideas').on('keyup', '.idea-body', saveUpdates);
-// $('.todo-list__ideas').on('keyup click', function (event) {
-//   saveUpdates(event);
-// });
 $('.completedTask').on('click', sortCompleted);
 $('.todo-list__ideas').on('keydown blur', '.idea-title', disableEditable);
 $('.todo-list__ideas').on('keydown blur', '.idea-body', disableEditable);
@@ -18,6 +15,7 @@ $('.todo-list__ideas').on('click', '.idea-title', enableEditable);
 $('.todo-list__ideas').on('click', '.idea-body', enableEditable);
 
 populatingIdeas();
+showTen();
 
 function saveUpdates(event) {
   console.log('save updates fired');
@@ -33,13 +31,14 @@ function saveUpdates(event) {
   sendToStorage(key, idea);
 }
 
-// function existingIdea(el) {
-//   this.key = el.id;
-//   this.title = $(el).find('.idea-title').text();
-//   this.body = $(el).find('.idea-body').text();
-//   this.completed = el.classList.contains('idea-cards-read');
-//   //this.importanceValue = $(ideaElement).find('?').text();
-// }
+function showTen(){
+  var card = $('.idea-cards');
+  for(i = 0; i <= card.length; i++){
+    if(card.length >= 10){
+      $('.idea-cards').slice(10).hide();
+    }
+  }
+}
 
 function Idea(key, ideaTitleValue, ideaBodyValue) {
   this.key = key;
@@ -84,6 +83,7 @@ function saveIdea(event) {
   $('form').trigger("reset");
   $inputTitle.focus();
   toggleDisableState();
+  showTen();
 }
 
 function populatingIdeas() {
@@ -91,12 +91,6 @@ function populatingIdeas() {
     var stringifiedObject = localStorage.getItem(localStorage.key(i));
     var newIdea = JSON.parse(stringifiedObject);
     var selectFlagNum = newIdea.importanceValue;
-
-    // if the idea has completed === true
-    // add class of idea-cards-read
-
-    // this.completed = el.classList.contains('idea-cards-read');
-
     var articleTemplate = `<article class="idea-cards" class="" id="${newIdea.key}">
     <p class = "checkMark">&#x02713</p>
     <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
@@ -157,6 +151,7 @@ function deleteIdeas() {
   $(this).closest('.idea-cards').fadeOut();
   var key = $(this).closest('.idea-cards').attr('id');
   localStorage.removeItem(key);
+  showTen();
 }
 
 function changeReadClass(ev) {
@@ -174,19 +169,6 @@ function changeReadClass(ev) {
   sendToStorage(key, idea);
 }
 
-// function changeReadClass(ev) {
-//   var key =  $(this).closest('.idea-cards').attr('id');
-//   var idea = JSON.parse(localStorage.getItem(key));
-//   $(this).closest('.checkMark').toggleClass('checkMarkActive');
-//   if ($(this).closest('.checkMark').hasClass('checkMarkActive')) {
-//     // $(this).closest('.idea-cards').toggleClass('idea-cards-read');
-//     idea.completed = true;
-//   } else {
-//     idea.completed = false;
-//   }
-//   sendToStorage(key, idea);
-// }
-
 
 function sortCompleted() {
   var showCompleted = $('.completedTask').text();
@@ -197,6 +179,7 @@ function sortCompleted() {
   } else {
     $('.completedTask').text('Show completed tasks');
     var cards = $('.idea-cards').show();
+    var completed = $('.idea-cards-read').hide();
   }
 }
 
