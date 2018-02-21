@@ -91,7 +91,13 @@ function populatingIdeas() {
     var stringifiedObject = localStorage.getItem(localStorage.key(i));
     var newIdea = JSON.parse(stringifiedObject);
     var selectFlagNum = newIdea.importanceValue;
-    var articleTemplate = `<article class="idea-cards" id="${newIdea.key}">
+
+    // if the idea has completed === true
+    // add class of idea-cards-read
+
+    // this.completed = el.classList.contains('idea-cards-read');
+
+    var articleTemplate = `<article class="idea-cards" class="" id="${newIdea.key}">
     <p class = "checkMark">&#x02713</p>
     <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
     <article class="delete-x"></article>
@@ -117,8 +123,12 @@ function populatingIdeas() {
   </article>`;
     $('.todo-list__ideas').prepend(articleTemplate);
     $( $('.flags button')[selectFlagNum] ).addClass('selected-flag');
+    // if (newIdea.completed) {
+    //   $('.idea-cards').addClass('idea-cards-read');
+    // }
+
     if (newIdea.completed === true) {
-      var ideaEl = document.getElementById(idea.key);
+      var ideaEl = document.getElementById(newIdea.key);
       ideaEl.classList.add("idea-cards-read");
       ideaEl.querySelector('.checkMark').classList.add('checkMarkActive');
       $('.idea-cards-read').hide()
