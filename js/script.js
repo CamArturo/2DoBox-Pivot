@@ -20,25 +20,26 @@ $('.todo-list__ideas').on('click', '.idea-body', enableEditable);
 populatingIdeas();
 
 function saveUpdates(event) {
-  // var ideaElement = event.target.closest('.idea-cards');
+  console.log('save updates fired');
+  var ideaElement = event.target.closest('.idea-cards');
   var key =  $(this).closest('.idea-cards').attr('id');
   var idea = JSON.parse(localStorage.getItem(key));
-  var $inputTitleValue = $('.idea-title').text();
-  var $inputBodyValue = $('.idea-body').text();
-  idea.title = $inputTitleValue;
-  idea.body = $inputBodyValue;
-  // var updatedIdea = new existingIdea(ideaElement);
+  if ($(this).hasClass('idea-title')) {
+    idea.title = $(this).closest('.idea-title').text();
+  } else {
+    idea.body = $(this).closest('.idea-body').text();
+  }
+  this.completed = ideaElement.classList.contains('idea-cards-read');
   sendToStorage(key, idea);
 }
 
-function existingIdea(el) {
-  //this.levelsImportance = $(el).find('?').text();
-  this.key = el.id;
-  this.title = $(el).find('.idea-title').text();
-  this.body = $(el).find('.idea-body').text();
-  this.completed = el.classList.contains('idea-cards-read');
-  //this.importanceValue = $(ideaElement).find('?').text();
-}
+// function existingIdea(el) {
+//   this.key = el.id;
+//   this.title = $(el).find('.idea-title').text();
+//   this.body = $(el).find('.idea-body').text();
+//   this.completed = el.classList.contains('idea-cards-read');
+//   //this.importanceValue = $(ideaElement).find('?').text();
+// }
 
 function Idea(key, ideaTitleValue, ideaBodyValue) {
   this.key = key;
@@ -90,7 +91,7 @@ function populatingIdeas() {
     var stringifiedObject = localStorage.getItem(localStorage.key(i));
     var newIdea = JSON.parse(stringifiedObject);
     var selectFlagNum = newIdea.importanceValue;
-    var arrCardPossible = [`<article class="idea-cards" id="${newIdea.key}">
+    var articleTemplate = `<article class="idea-cards" id="${newIdea.key}">
     <p class = "checkMark">&#x02713</p>
     <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
     <article class="delete-x"></article>
@@ -101,7 +102,7 @@ function populatingIdeas() {
         <article class="downvote"></article>
       </section>
       <section class="flags">
-          <button class="0 none selected-flag" title="None" type="button"><i class="far fa-flag"></i></i>
+          <button class="0 none" title="None" type="button"><i class="far fa-flag"></i></i>
           </button>
               <button class="1 low" type="button"><i class="fas fa-flag"></i>
           </button>
@@ -113,100 +114,9 @@ function populatingIdeas() {
           </button>
       </section>
     </section>
-  </article>`, `<article class="idea-cards" id="${newIdea.key}">
-    <p class = "checkMark">&#x02713</p>
-    <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
-    <article class="delete-x"></article>
-    <p class="idea-body" contenteditable="true">${newIdea.body}</p>
-    <section class="icons">
-      <section class="vote-buttons">
-        <article class="upvote"></article>
-        <article class="downvote"></article>
-      </section>
-      <section class="flags">
-          <button class="0 none" type="button"><i class="far fa-flag"></i></i>
-          </button>
-              <button class="1 low selected-flag" title="Low" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="3 high" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
-          </button>
-      </section>
-    </section>
-  </article>`, `<article class="idea-cards" id="${newIdea.key}">
-    <p class = "checkMark">&#x02713</p>
-    <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
-    <article class="delete-x"></article>
-    <p class="idea-body" contenteditable="true">${newIdea.body}</p>
-    <section class="icons">
-      <section class="vote-buttons">
-        <article class="upvote"></article>
-        <article class="downvote"></article>
-      </section>
-      <section class="flags">
-          <button class="0 none" type="button"><i class="far fa-flag"></i></i>
-          </button>
-              <button class="1 low" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="2 normal selected-flag" title="Normal" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="3 high" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
-          </button>
-      </section>
-    </section>
-  </article>`, `<article class="idea-cards" id="${newIdea.key}">
-    <p class = "checkMark">&#x02713</p>
-    <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
-    <article class="delete-x"></article>
-    <p class="idea-body" contenteditable="true">${newIdea.body}</p>
-    <section class="icons">
-      <section class="vote-buttons">
-        <article class="upvote"></article>
-        <article class="downvote"></article>
-      </section>
-      <section class="flags">
-          <button class="0 none" type="button"><i class="far fa-flag"></i></i>
-          </button>
-              <button class="1 low" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="3 high selected-flag" title="High" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="4 critical" type="button"><i class="fas fa-flag"></i>
-          </button>
-      </section>
-    </section>
-  </article>`, `<article class="idea-cards" id="${newIdea.key}">
-    <p class = "checkMark">&#x02713</p>
-    <h2 class="idea-title" contenteditable="true">${newIdea.title}</h2>
-    <article class="delete-x"></article>
-    <p class="idea-body" contenteditable="true">${newIdea.body}</p>
-    <section class="icons">
-      <section class="vote-buttons">
-        <article class="upvote"></article>
-        <article class="downvote"></article>
-      </section>
-      <section class="flags">
-          <button class="0 none" type="button"><i class="far fa-flag"></i></i>
-          </button>
-              <button class="1 low" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="2 normal" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="3 high" type="button"><i class="fas fa-flag"></i>
-          </button>
-              <button class="4 critical selected-flag" title="Critical" type="button"><i class="fas fa-flag"></i>
-          </button>
-      </section>
-    </section>
-  </article>`];
-    $('.todo-list__ideas').prepend(arrCardPossible[selectFlagNum]);
+  </article>`;
+    $('.todo-list__ideas').prepend(articleTemplate);
+    $( $('.flags button')[selectFlagNum] ).addClass('selected-flag');
     if (newIdea.completed === true) {
       var ideaEl = document.getElementById(idea.key);
       ideaEl.classList.add("idea-cards-read");
@@ -217,6 +127,7 @@ function populatingIdeas() {
 }
 
 function sendToStorage(key, idea) {
+  console.log(idea);
   var stringifiedIdea = JSON.stringify(idea);
   localStorage.setItem(key, stringifiedIdea)
 }
@@ -239,11 +150,33 @@ function deleteIdeas() {
 }
 
 function changeReadClass(ev) {
+  var key =  $(this).closest('.idea-cards').attr('id');
+  var idea = JSON.parse(localStorage.getItem(key));
+
   $(this).closest('.checkMark').toggleClass('checkMarkActive');
-  if ('checkMarkActive') {
-    $(this).closest('.idea-cards').toggleClass('idea-cards-read');
+  $(this).closest('.idea-cards').toggleClass('idea-cards-read');
+
+  if ($(this).closest('.checkMark').hasClass('checkMarkActive')) {
+    idea.completed = true;
+  } else {
+    idea.completed = false;
   }
+  sendToStorage(key, idea);
 }
+
+// function changeReadClass(ev) {
+//   var key =  $(this).closest('.idea-cards').attr('id');
+//   var idea = JSON.parse(localStorage.getItem(key));
+//   $(this).closest('.checkMark').toggleClass('checkMarkActive');
+//   if ($(this).closest('.checkMark').hasClass('checkMarkActive')) {
+//     // $(this).closest('.idea-cards').toggleClass('idea-cards-read');
+//     idea.completed = true;
+//   } else {
+//     idea.completed = false;
+//   }
+//   sendToStorage(key, idea);
+// }
+
 
 function sortCompleted() {
   var showCompleted = $('.completedTask').text();
