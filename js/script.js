@@ -13,9 +13,12 @@ $('.todo-list__ideas').on('keydown blur', '.idea-title', disableEditable);
 $('.todo-list__ideas').on('keydown blur', '.idea-body', disableEditable);
 $('.todo-list__ideas').on('click', '.idea-title', enableEditable);
 $('.todo-list__ideas').on('click', '.idea-body', enableEditable);
-
+$('.btns').on('click', function(event){
+  sortNone(event);
+});
 populatingIdeas();
 showTen();
+
 
 function saveUpdates(event) {
   console.log('save updates fired');
@@ -128,7 +131,6 @@ function populatingIdeas() {
 }
 
 function sendToStorage(key, idea) {
-  console.log(idea);
   var stringifiedIdea = JSON.stringify(idea);
   localStorage.setItem(key, stringifiedIdea)
 }
@@ -154,10 +156,8 @@ function deleteIdeas() {
 function changeReadClass(ev) {
   var key =  $(this).closest('.idea-cards').attr('id');
   var idea = JSON.parse(localStorage.getItem(key));
-
   $(this).closest('.checkMark').toggleClass('checkMarkActive');
   $(this).closest('.idea-cards').toggleClass('idea-cards-read');
-
   if ($(this).closest('.checkMark').hasClass('checkMarkActive')) {
     idea.completed = true;
   } else {
@@ -165,7 +165,6 @@ function changeReadClass(ev) {
   }
   sendToStorage(key, idea);
 }
-
 
 function sortCompleted() {
   var showCompleted = $('.completedTask').text();
@@ -218,6 +217,22 @@ function searchIdeas() {
     } else {
       $(card[i]).hide();
     }
+  }
+}
+
+function sortNone(ev){
+  var targetButton = ev.target.closest('button');
+  if(targetButton){
+    var targetClass = targetButton.classList.item(1);
+    var tQS = '.' + targetClass;
+  var taskList = $('.idea-cards');
+  for(i = 0; i < taskList.length; i++){
+    if(taskList[i].querySelector(tQS).classList.contains('selected-flag')){
+      taskList[i].style.display = 'block';
+    }else{
+      taskList[i].style.display = 'none';
+    }
+  }
   }
 }
 
