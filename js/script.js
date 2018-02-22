@@ -13,7 +13,6 @@ $('.todo-list__ideas').on('keydown blur', '.idea-title', disableEditable);
 $('.todo-list__ideas').on('keydown blur', '.idea-body', disableEditable);
 $('.todo-list__ideas').on('click', '.idea-title', enableEditable);
 $('.todo-list__ideas').on('click', '.idea-body', enableEditable);
-
 $('.btns').on('click', function(event){
   sortNone(event);
 });
@@ -62,7 +61,7 @@ function saveIdea(event) {
         <article class="downvote"></article>
       </section>
       <section class="flags">
-          <button class="0 " type="button"><i class="far fa-flag"></i>
+          <button class="0 none" type="button"><i class="far fa-flag"></i>
           </button>
               <button class="1 low" type="button"><i class="fas fa-flag"></i>
           </button>
@@ -212,7 +211,6 @@ function searchIdeas() {
 }
 
 function showAll(){
-  console.log('hh');
   var card = document.querySelectorAll('.idea-cards:not(.idea-cards-read)');
   for (i=0; i<card.length; i++){
       card[i].style.display = 'block';
@@ -227,10 +225,10 @@ function showTen(){
       card[i].style.display = 'none';
     } else{
       card[i].style.display = 'block';
-    }  
-  }
-  if(document.querySelector('#showall')){
-  } else{
+    }
+  } 
+  if(document.querySelector('#showall')) {
+  } else {
     $('.todo-list__ideas').append(`<a id="showall" class="btn btn-small btn-blue" href="#">Show All TODOS</a></section>`)
     $('.btn-small').on('click', showAll);
   }
