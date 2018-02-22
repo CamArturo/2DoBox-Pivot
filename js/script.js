@@ -117,9 +117,6 @@ function populatingIdeas() {
   </article>`;
     $('.todo-list__ideas').prepend(articleTemplate);
     $( $('.flags button')[selectFlagNum] ).addClass('selected-flag');
-    // if (newIdea.completed) {
-    //   $('.idea-cards').addClass('idea-cards-read');
-    // }
 
     if (newIdea.completed === true) {
       var ideaEl = document.getElementById(newIdea.key);
@@ -176,10 +173,12 @@ function sortCompleted() {
     $('.completedTask').text('Show All');
     var cards = $('.idea-cards').hide();
     var completed = $('.idea-cards-read').show();
+    showTen();
   } else {
     $('.completedTask').text('Show completed tasks');
     var cards = $('.idea-cards').show();
     var completed = $('.idea-cards-read').hide();
+    showTen();
   }
 }
 

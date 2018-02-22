@@ -11,7 +11,7 @@
 .todo-list__ideas {
   display: flex;
   flex-direction: column;
-  margin: 463px auto 0;
+  margin: 483px auto 0;
   position: absolute;
   width: 60%;
   z-index: -1;
@@ -31,4 +31,41 @@
 
 .showAll{
   color:red;
+}
+
+a.btn,.btn {
+  margin-right: 1em; /* remove this while use*/
+  margin-bottom: 1em; /* remove this while use*/
+  display: inline-block;
+  outline: none;
+  *zoom: 1;
+  text-align: center;
+  text-decoration: none;
+  font-family: inherit;
+  font-weight: 300;
+  letter-spacing: 1px;
+  vertical-align: middle;
+  border: 1px solid;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.01);
+}
+
+.btn-small {
+  font-size: 0.8125em;
+  padding: 0.4125em 1.25em;
+}
+
+.btn-blue {
+  color: #4682B4;
+  border-color: #4682B4;
+}
+.btn-blue:hover {
+  background: #4682B4;
+  color: #fff;
+  border-color: #4682B4;    
+}
+
+.topMenu{
+
 }
